@@ -21,6 +21,8 @@ export default function App() {
   const [prevScreen, setPrevScreen] = useState<Screen>("home");
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  // Captured phone number passed from Login/Signup → OTPScreen
+  const [capturedPhone, setCapturedPhone] = useState("");
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -46,20 +48,41 @@ export default function App() {
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div key={screen}
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        transition={{ duration: 0.15 }} className="h-[100dvh]">
+      <motion.div
+        key={screen}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.15 }}
+        className="h-[100dvh]"
+      >
         {screen === "splash" && (
           <SplashScreen lang={lang} onLangChange={setLang} onNext={navigate} />
         )}
         {screen === "signup" && (
-          <SignupScreen lang={lang} onNext={navigate} onBack={() => navigate("splash")} />
+          <SignupScreen
+            lang={lang}
+            onNext={navigate}
+            onBack={() => navigate("splash")}
+            onPhoneCapture={(p) => setCapturedPhone(p)}
+          />
         )}
         {screen === "login" && (
-          <LoginScreen lang={lang} onNext={navigate} onBack={() => navigate("splash")} />
+          <LoginScreen
+            lang={lang}
+            onNext={navigate}
+            onBack={() => navigate("splash")}
+            onPhoneCapture={(p) => setCapturedPhone(p)}
+          />
         )}
         {screen === "otp" && (
-          <OTPScreen lang={lang} onNext={navigate} onBack={() => navigate(authMode)} authMode={authMode} />
+          <OTPScreen
+            lang={lang}
+            onNext={navigate}
+            onBack={() => navigate(authMode)}
+            authMode={authMode}
+            phone={capturedPhone}
+          />
         )}
         {screen === "onboarding" && (
           <OnboardingScreen lang={lang} onNext={navigate} />
@@ -68,8 +91,13 @@ export default function App() {
           <InstallScreen lang={lang} onNext={navigate} deferredPrompt={deferredPrompt} />
         )}
         {screen === "home" && (
-          <HomeScreen lang={lang} onQuery={handleQuery} onNavigate={navigate}
-            offline={offline} setOffline={setOffline} />
+          <HomeScreen
+            lang={lang}
+            onQuery={handleQuery}
+            onNavigate={navigate}
+            offline={offline}
+            setOffline={setOffline}
+          />
         )}
         {screen === "loading" && <SkeletonLoader lang={lang} />}
         {screen === "response" && (
