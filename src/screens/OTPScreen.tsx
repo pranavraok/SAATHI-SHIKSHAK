@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { BookOpen, ArrowLeft } from "lucide-react";
 import { C } from "../constants/theme";
 import { TRANSLATIONS, Lang, Screen } from "../constants/translations";
@@ -7,7 +8,22 @@ export function OTPScreen({ lang, onNext, onBack, authMode }: { lang: Lang; onNe
   const [otp, setOtp] = useState(["", "", "", ""]);
   const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+  const [toast, setToast] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30);
   const t = TRANSLATIONS[lang];
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const handleResend = () => {
+    if (timeLeft > 0) return;
+    setToast(true);
+    setTimeLeft(30);
+    setTimeout(() => setToast(false), 3000);
+  };
 
   const handleOtp = (i: number, val: string) => {
     if (!/^\d*$/.test(val)) return;
@@ -63,9 +79,34 @@ export function OTPScreen({ lang, onNext, onBack, authMode }: { lang: Lang; onNe
         {t.verify}
       </button>
 
-      <button onClick={() => alert("OTP Resent successfully!")} style={{ background: "none", border: "none", color: C.primary, cursor: "pointer", fontSize: 14 }} className="self-center">
-        {t.resendOtp}
+      <button 
+        onClick={handleResend} 
+        disabled={timeLeft > 0}
+        style={{ 
+          background: "none", 
+          border: "none", 
+          color: timeLeft > 0 ? C.slate400 : C.primary, 
+          cursor: timeLeft > 0 ? "default" : "pointer", 
+          fontSize: 14 
+        }} 
+        className="self-center"
+      >
+        {t.resendOtp} {timeLeft > 0 ? `(${timeLeft}s)` : ""}
       </button>
+
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, x: "-50%" }}
+            exit={{ opacity: 0, y: 50, x: "-50%" }}
+            className="fixed bottom-10 left-1/2 px-6 py-3 rounded-full shadow-lg"
+            style={{ background: C.slate900, color: C.white, fontSize: 14, zIndex: 50 }}
+          >
+            OTP Resent successfully!
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
