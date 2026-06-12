@@ -3,7 +3,7 @@ import { BookOpen, ArrowLeft } from "lucide-react";
 import { C } from "../constants/theme";
 import { TRANSLATIONS, Lang, Screen } from "../constants/translations";
 
-export function OTPScreen({ lang, onNext, onBack }: { lang: Lang; onNext: (s: Screen) => void; onBack: () => void }) {
+export function OTPScreen({ lang, onNext, onBack, authMode }: { lang: Lang; onNext: (s: Screen) => void; onBack: () => void; authMode: "signup" | "login" }) {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
@@ -51,7 +51,7 @@ export function OTPScreen({ lang, onNext, onBack }: { lang: Lang; onNext: (s: Sc
         ))}
       </div>
 
-      <button onClick={() => filled && onNext("onboarding")}
+      <button onClick={() => filled && onNext(authMode === "signup" ? "onboarding" : "home")}
         className="w-full max-w-sm self-center rounded-full mt-4 transition-all active:scale-95"
         style={{
           padding: "16px 0", minHeight: 52,

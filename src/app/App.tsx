@@ -2,6 +2,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Screen, Lang } from "../constants/translations";
 import { SplashScreen } from "../screens/SplashScreen";
+import { SignupScreen } from "../screens/SignupScreen";
+import { LoginScreen } from "../screens/LoginScreen";
 import { OTPScreen } from "../screens/OTPScreen";
 import { OnboardingScreen } from "../screens/OnboardingScreen";
 import { HomeScreen } from "../screens/HomeScreen";
@@ -16,8 +18,11 @@ export default function App() {
   const [lang, setLang] = useState<Lang>("hi");
   const [offline, setOffline] = useState(false);
   const [prevScreen, setPrevScreen] = useState<Screen>("home");
+  const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
 
   const navigate = (s: Screen) => {
+    if (s === "signup") setAuthMode("signup");
+    if (s === "login") setAuthMode("login");
     if ((s === "response" || s === "pattern") && screen !== "loading") setPrevScreen(screen);
     setScreen(s);
   };
@@ -36,8 +41,14 @@ export default function App() {
         {screen === "splash" && (
           <SplashScreen lang={lang} onLangChange={setLang} onNext={navigate} />
         )}
+        {screen === "signup" && (
+          <SignupScreen lang={lang} onNext={navigate} onBack={() => navigate("splash")} />
+        )}
+        {screen === "login" && (
+          <LoginScreen lang={lang} onNext={navigate} onBack={() => navigate("splash")} />
+        )}
         {screen === "otp" && (
-          <OTPScreen lang={lang} onNext={navigate} onBack={() => navigate("splash")} />
+          <OTPScreen lang={lang} onNext={navigate} onBack={() => navigate(authMode)} authMode={authMode} />
         )}
         {screen === "onboarding" && (
           <OnboardingScreen lang={lang} onNext={navigate} />

@@ -4,7 +4,6 @@ import { C } from "../constants/theme";
 import { TRANSLATIONS, Lang, Screen } from "../constants/translations";
 
 export function SplashScreen({ lang, onLangChange, onNext }: { lang: Lang; onLangChange: (l: Lang) => void; onNext: (s: Screen) => void }) {
-  const [phone, setPhone] = useState("");
   const t = TRANSLATIONS[lang];
 
   return (
@@ -43,37 +42,31 @@ export function SplashScreen({ lang, onLangChange, onNext }: { lang: Lang; onLan
           ))}
         </div>
 
-        {/* Phone input */}
-        <div className="flex flex-col gap-1">
-          <label style={{ color: C.slate700, fontSize: 14, fontWeight: 600 }}>{t.mobileLabel}</label>
-          <div className="flex items-center rounded-2xl overflow-hidden shadow-sm"
-            style={{ border: `2px solid ${phone.length > 0 ? C.primary : C.slate300}`, background: C.white }}>
-            <span className="px-3 py-4"
-              style={{ color: C.slate500, fontSize: 16, borderRight: `1px solid ${C.slate300}` }}>
-              +91
-            </span>
-            <input type="tel" maxLength={10} value={phone}
-              onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-              placeholder="XXXXX XXXXX"
-              style={{
-                flex: 1, padding: "14px 12px", border: "none", outline: "none",
-                fontSize: 18, letterSpacing: 2, color: C.slate900, background: "transparent",
-              }} />
-          </div>
+        {/* Action Buttons */}
+        <div className="flex flex-col gap-4 w-full mt-4">
+          <button onClick={() => onNext("signup")}
+            className="w-full rounded-full transition-all active:scale-95"
+            style={{
+              padding: "16px 0", minHeight: 52,
+              background: C.primary,
+              color: C.white, fontSize: 17, fontWeight: 600, border: "none",
+              cursor: "pointer",
+              boxShadow: `0 4px 16px ${C.primary}40`,
+            }}>
+            {t.getStarted}
+          </button>
+          
+          <button onClick={() => onNext("login")}
+            className="w-full rounded-full transition-all active:scale-95"
+            style={{
+              padding: "16px 0", minHeight: 52,
+              background: "transparent",
+              color: C.primary, fontSize: 15, fontWeight: 600, border: "none",
+              cursor: "pointer",
+            }}>
+            {t.alreadyHaveAccount}
+          </button>
         </div>
-
-        {/* Submit */}
-        <button onClick={() => phone.length === 10 && onNext("otp")}
-          className="w-full rounded-full transition-all active:scale-95"
-          style={{
-            padding: "16px 0", minHeight: 52,
-            background: phone.length === 10 ? C.primary : C.slate300,
-            color: C.white, fontSize: 17, fontWeight: 600, border: "none",
-            cursor: phone.length === 10 ? "pointer" : "default",
-            boxShadow: phone.length === 10 ? `0 4px 16px ${C.primary}40` : "none",
-          }}>
-          {t.getOtp}
-        </button>
       </div>
 
       <p style={{ color: C.slate500, fontSize: 12, textAlign: "center", marginTop: 24 }}>{t.footer}</p>

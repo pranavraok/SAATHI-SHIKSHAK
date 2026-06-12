@@ -1,5 +1,5 @@
 export type Lang = "hi" | "en";
-export type Screen = "splash" | "otp" | "onboarding" | "home" | "loading" | "response" | "history" | "profile" | "pattern";
+export type Screen = "splash" | "signup" | "login" | "otp" | "onboarding" | "home" | "loading" | "response" | "history" | "profile" | "pattern";
 
 export const TRANSLATIONS = {
   hi: {
@@ -7,7 +7,14 @@ export const TRANSLATIONS = {
     tagline: "हर सवाल का जवाब. रोज़.",
     footer: "NEP 2020 • NIPUN Bharat • भारत सरकार",
     mobileLabel: "मोबाइल नंबर",
-    getOtp: "लॉग इन करें",
+    getOtp: "OTP प्राप्त करें",
+    getStarted: "शुरू करें",
+    alreadyHaveAccount: "पहले से खाता है? कृपया लॉग इन करें",
+    createAccount: "खाता बनाएं",
+    nameLabel: "नाम",
+    loginBtn: "लॉग इन करें",
+    signupTitle: "नया खाता बनाएं",
+    loginTitle: "वापसी पर स्वागत है",
     goBack: "वापस जाएं",
     enterOtp: "OTP दर्ज करें",
     otpSent: "+91 XXXXX XXXXX पर OTP भेजा गया है",
@@ -102,7 +109,14 @@ export const TRANSLATIONS = {
     tagline: "An Answer to Every Question. Every Day.",
     footer: "NEP 2020 • NIPUN Bharat • Govt. of India",
     mobileLabel: "Mobile Number",
-    getOtp: "Log In / Get OTP",
+    getOtp: "Get OTP",
+    getStarted: "Get Started",
+    alreadyHaveAccount: "Already have an account? Please login",
+    createAccount: "Create Account",
+    nameLabel: "Name",
+    loginBtn: "Login",
+    signupTitle: "Create New Account",
+    loginTitle: "Welcome Back",
     goBack: "Go Back",
     enterOtp: "Enter OTP",
     otpSent: "OTP sent to +91 XXXXX XXXXX",
