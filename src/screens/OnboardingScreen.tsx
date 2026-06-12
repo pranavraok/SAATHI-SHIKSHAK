@@ -92,7 +92,7 @@ export function OnboardingScreen({ lang, onNext }: { lang: Lang; onNext: (s: Scr
       </div>
 
       <div className="px-6 py-4 shadow-lg flex justify-center" style={{ background: C.white, borderTop: `1px solid ${C.slate300}` }}>
-        <button onClick={() => canContinue && onNext("home")}
+        <button onClick={() => canContinue && onNext("install")}
           className="w-full max-w-lg rounded-full transition-all active:scale-95"
           style={{
             padding: "16px 0", minHeight: 52,

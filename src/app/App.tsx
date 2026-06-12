@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Screen, Lang } from "../constants/translations";
 import { SplashScreen } from "../screens/SplashScreen";
@@ -6,6 +6,7 @@ import { SignupScreen } from "../screens/SignupScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { OTPScreen } from "../screens/OTPScreen";
 import { OnboardingScreen } from "../screens/OnboardingScreen";
+import { InstallScreen } from "../screens/InstallScreen";
 import { HomeScreen } from "../screens/HomeScreen";
 import { SkeletonLoader } from "../components/SkeletonLoader";
 import { ResponseScreen } from "../screens/ResponseScreen";
@@ -19,6 +20,16 @@ export default function App() {
   const [offline, setOffline] = useState(false);
   const [prevScreen, setPrevScreen] = useState<Screen>("home");
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
 
   const navigate = (s: Screen) => {
     if (s === "signup") setAuthMode("signup");
@@ -52,6 +63,9 @@ export default function App() {
         )}
         {screen === "onboarding" && (
           <OnboardingScreen lang={lang} onNext={navigate} />
+        )}
+        {screen === "install" && (
+          <InstallScreen lang={lang} onNext={navigate} deferredPrompt={deferredPrompt} />
         )}
         {screen === "home" && (
           <HomeScreen lang={lang} onQuery={handleQuery} onNavigate={navigate}

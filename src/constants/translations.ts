@@ -1,5 +1,5 @@
 export type Lang = "hi" | "en";
-export type Screen = "splash" | "signup" | "login" | "otp" | "onboarding" | "home" | "loading" | "response" | "history" | "profile" | "pattern";
+export type Screen = "splash" | "signup" | "login" | "otp" | "onboarding" | "install" | "home" | "loading" | "response" | "history" | "profile" | "pattern";
 
 export const TRANSLATIONS = {
   hi: {
@@ -26,6 +26,10 @@ export const TRANSLATIONS = {
     subjectLabel: "विषय",
     privacyNote: "आपकी जानकारी केवल बेहतर सलाह देने के लिए उपयोग होगी। इसे कभी साझा नहीं किया जाएगा।",
     continueBtn: "आगे बढ़ें →",
+    installTitle: "होम स्क्रीन पर जोड़ें",
+    installDesc: "एक ऐप की तरह तेज़ और आसान अनुभव के लिए साथी शिक्षक को अपनी होम स्क्रीन पर जोड़ें।",
+    installBtn: "अभी जोड़ें",
+    maybeLater: "शायद बाद में",
     todayChallenge: "आज की चुनौती",
     challengeText: "क्या आपकी कक्षा में समझ की कमी है?",
     listening: "सुन रहे हैं...",
@@ -128,6 +132,10 @@ export const TRANSLATIONS = {
     subjectLabel: "Subject",
     privacyNote: "Your information will only be used to provide better advice. It will never be shared.",
     continueBtn: "Continue →",
+    installTitle: "Add to Home Screen",
+    installDesc: "Add SaathiShikshak to your home screen for a faster and easier app-like experience.",
+    installBtn: "Add Now",
+    maybeLater: "Maybe Later",
     todayChallenge: "Today's Challenge",
     challengeText: "Is comprehension lacking in your class?",
     listening: "Listening...",
